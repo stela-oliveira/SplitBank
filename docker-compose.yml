@@ -1,0 +1,112 @@
+services:
+  # Serviço do Backend do SplitBank
+  splitbank-backend:
+    build:
+      context: ./backend # Aponta para a pasta onde está o Dockerfile do SplitBank backend
+      dockerfile: Dockerfile
+    # Mapeia a porta 3000 do host para a porta 3000 do container
+    ports:
+      - "3000:3000"
+    # Monta o volume para hot-reloading em desenvolvimento
+    volumes:
+      - ./backend:/usr/src/app/backend
+      - /usr/src/app/backend/node_modules # Impede que node_modules do host sobrescreva o do container
+    depends_on:
+      - splitbank-db
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      # Variáveis de ambiente para conexão com o DB do SplitBank
+      DB_HOST: splitbank-db # Nome do serviço do banco de dados do SplitBank
+      DB_PORT: 5432
+      DB_USER: splitbankuser
+      DB_PASSWORD: splitbankpassword
+      DB_NAME: splitbankdb
+      JWT_SECRET: sua_chave_secreta_jwt_para_splitbank
+
+  # Banco de Dados do SplitBank
+  splitbank-db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: splitbankdb
+      POSTGRES_USER: splitbankuser
+      POSTGRES_PASSWORD: splitbankpassword
+    volumes:
+      - splitbank_db_data:/var/lib/postgresql/data
+    ports:
+      - "54320:5432" # Porta do host para acessar o DB do SplitBank diretamente (opcional)
+
+  # Serviço da API Mini Banco Central
+  mini-banco-central:
+    build:
+      context: ./backend/apis/mini-banco-central # Aponta para a pasta onde está o Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend/apis/mini-banco-central:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - mini-banco-central-db
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      # Variáveis de ambiente para conexão com o DB da Mini Banco Central
+      DB_HOST: mini-banco-central-db
+      DB_PORT: 5432
+      DB_USER: minibancouser
+      DB_PASSWORD: minibancopassword
+      DB_NAME: minibancodb
+      JWT_SECRET: sua_chave_secreta_jwt_para_minibanco
+
+  # Banco de Dados da Mini Banco Central
+  mini-banco-central-db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: minibancodb
+      POSTGRES_USER: minibancouser
+      POSTGRES_PASSWORD: minibancopassword
+    volumes:
+      - mini_banco_central_db_data:/var/lib/postgresql/data
+    ports:
+      - "54321:5432" # Porta do host para acessar o DB do Mini Banco Central diretamente (opcional)
+
+  # Serviço da API Banco Central (assumindo estrutura similar à Mini Banco Central)
+  api-banco-central:
+    build:
+      context: ./backend/apis/ApiBancoCentral # Aponta para a pasta onde está o Dockerfile
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./backend/apis/ApiBancoCentral:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - api-banco-central-db
+    environment:
+      NODE_ENV: development
+      PORT: 3002
+      # Variáveis de ambiente para conexão com o DB da Api Banco Central
+      DB_HOST: api-banco-central-db
+      DB_PORT: 5432
+      DB_USER: apibancouser
+      DB_PASSWORD: apibancopassword
+      DB_NAME: apibancodb
+      JWT_SECRET: sua_chave_secreta_jwt_para_apibanco
+
+  # Banco de Dados da Api Banco Central
+  api-banco-central-db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: apibancodb
+      POSTGRES_USER: apibancouser
+      POSTGRES_PASSWORD: apibancopassword
+    volumes:
+      - api_banco_central_db_data:/var/lib/postgresql/data
+    ports:
+      - "54322:5432" # Porta do host para acessar o DB da Api Banco Central diretamente (opcional)
+
+volumes:
+  splitbank_db_data:
+  mini_banco_central_db_data:
+  api_banco_central_db_data:

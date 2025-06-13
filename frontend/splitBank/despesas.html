@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minha Carteira</title>
+
+  <!-- Fonte e Ícones -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="despesas.css">
+  <style>
+
+  </style>
+</head>
+<body class="despesas-page"> <!-- Adicionada classe para identificação no JS -->
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <a href="home.html" class="icon arrow"><i class='bx bx-arrow-back'></i></a>      <div class="title">Carteira Compartilhada</div>
+      <div class="icon bell"><i class='bx bx-bell'></i></div>
+    </header>
+
+    <!-- Valores -->
+    <div class="values">
+      <div class="paid">
+        <span id="paidAmount">Pago<br>R$2.783,00</span> <!-- Adicionado ID -->
+        <div class="progress-indicator">
+          <div class="progress-paid" id="progressPaidBar" style="width: 45%;"></div> <!-- Adicionado ID -->
+        </div>
+      </div>
+      <div class="total">
+        <span id="totalAmount">Total<br>-R$6.187,40</span> <!-- Adicionado ID -->
+      </div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="paid-bar" id="progressBarMain" style="width: 45%;"></div> <!-- Adicionado ID -->
+    </div>
+
+    <!-- Categorias -->
+    <div class="grid">
+    <a href="comida.html" class="btn-grid-link" id="comidaCategory"> <!-- Adicionado ID -->
+        <div class="btn-grid"><i class='bx bx-restaurant'></i>Comida</div>
+    </a>
+
+    <div class="btn-grid"><i class='bx bx-car'></i>Transporte</div>
+    <div class="btn-grid"><i class='bx bx-home-alt'></i>Casa</div>
+    <div class="btn-grid"><i class='bx bx-cart'></i>Mercado</div>
+    <div class="btn-grid"><i class='bx bx-building-house'></i>Aluguel</div>
+    <div class="btn-grid"><i class='bx bx-gift'></i>Presentes</div>
+    <div class="btn-grid"><i class='bx bx-category'></i>Outros</div>
+    <div class="btn-grid"><i class='bx bx-movie-play'></i>Entretenimento</div>
+
+    <!-- Adicionado ID para o botão "Adicionar" -->
+    <a href="novo.html" class="btn-grid-link" id="addExpenseButton">
+        <div class="btn-grid"><i class='bx bx-plus'></i>Adicionar</div>
+    </a>
+</div>
+
+    <nav class="footer-nav">
+    <a href="home.html" class="nav-item-link active" id="homeNav"> <!-- Adicionado ID -->
+        <div class="nav-item"><i class='bx bx-home'></i></div>
+    </a>
+
+    <div class="nav-item"><i class='bx bx-bar-chart-alt-2'></i></div>
+
+    <a href="equipe.html" class="nav-item-link" id="equipeNav"> <!-- Adicionado ID -->
+        <div class="nav-item"><i class='bx bx-transfer-alt'></i></div>
+    </a>
+
+    <div class="nav-item"><i class='bx bx-layer'></i></div>
+    <div class="nav-item"><i class='bx bx-user'></i></div>
+</nav>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

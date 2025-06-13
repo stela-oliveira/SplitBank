@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adicionar Nova Despesa</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: rgba(226, 172, 172, 0.5); /* Fundo semi-transparente para o pop-up */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      color: #333;
+    }
+    .modal-content h2 {
+      margin-top: 0;
+      color: #d1006d;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #a00050;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group select {
+      width: calc(100% - 20px);
+      padding: 12px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    .form-group input[type="text"]:focus,
+    .form-group input[type="number"]:focus,
+    .form-group select:focus {
+      border-color: #d1006d;
+      outline: none;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: space-around;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    .modal-actions button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      flex-grow: 1;
+    }
+    .modal-actions .cancel-btn {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+    .modal-actions .cancel-btn:hover {
+      background-color: #d0d0d0;
+    }
+    .modal-actions .add-btn {
+      background-color: #208080;
+      color: white;
+    }
+    .modal-actions .add-btn:hover {
+      background-color: #1a6666;
+    }
+  </style>
+</head>
+<body>
+  <div class="modal-content">
+    <h2>Nova Despesa</h2>
+    <form id="expenseForm">
+      <div class="form-group">
+        <label for="description">Descrição:</label>
+        <input type="text" id="description" name="description" placeholder="Ex: Conta de Luz" required />
+      </div>
+      <div class="form-group">
+        <label for="amount">Valor:</label>
+        <input type="number" id="amount" name="amount" step="0.01" placeholder="Ex: 150.75" required />
+      </div>
+      <div class="form-group">
+        <label for="category">Categoria:</label>
+        <select id="category" name="category" required>
+          <option value="">Selecione uma categoria</option>
+          <option value="Aluguel">Aluguel</option>
+          <option value="Supermercado">Supermercado</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Lazer">Lazer</option>
+          <option value="Internet">Internet</option>
+          <option value="Outros">Outros</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="cancel-btn" onclick="window.parent.postMessage('closePopup', '*')">Cancelar</button>
+        <button type="submit" class="add-btn">Adicionar</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Este script é executado dentro do iframe (o pop-up)
+    document.getElementById('expenseForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Impede o envio padrão do formulário
+
+      const description = document.getElementById('description').value;
+      const amount = parseFloat(document.getElementById('amount').value);
+      const category = document.getElementById('category').value;
+
+      if (description && amount && category) {
+        const newExpense = { description, amount, category };
+        // Envia a nova despesa para a janela pai (despesas.html)
+        window.parent.postMessage({ type: 'newExpense', data: newExpense }, '*');
+        // Limpa o formulário
+        document.getElementById('expenseForm').reset();
+      } else {
+        alert('Por favor, preencha todos os campos!');
+      }
+    });
+  </script>
+</body>
+</html>

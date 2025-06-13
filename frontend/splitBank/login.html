@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - SplitBank</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-container">
+      <h1 class="titulo">Bem-vindo!</h1>
+
+      <!-- Adicionado id="loginForm" para capturar o submit via JS -->
+      <form class="login-form" id="loginForm">
+        <label for="cpf">CPF</label>
+        <input type="text" id="cpf" placeholder="123.456.789-10" required />
+
+        <label for="senha">Senha</label>
+        <div class="senha-container">
+          <input type="password" id="senha" required />
+          <!-- Mantido onclick no HTML para o toggle de senha, mas o JS vai adicionar um event listener também -->
+          <span class="toggle" onclick="toggleSenha('senha')"></span>
+        </div>
+
+        <!-- Removido o onclick direto e transformado em type="submit" para ser manipulado pelo formulário -->
+        <button type="submit" class="btn btn-entrar">Entrar</button>
+
+        <a href="#" class="link">Esqueceu sua senha?</a>
+        <!-- Adicionado id="btnCadastrarLogin" para gerenciar via JS -->
+        <button type="button" class="btn btn-cadastrar" id="btnCadastrarLogin">Cadastrar</button>
+        <button class="btn btn-touchid">Usar Touch ID</button>
+      </form>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

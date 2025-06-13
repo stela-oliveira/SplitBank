@@ -1,0 +1,286 @@
+/* equipe.css */
+
+/* --- Variáveis CSS para Cores (Única definição) --- */
+:root {
+  --rosa-fundo: #d1006d; /* Cor principal de fundo da página (rosa escuro) */
+  --rosa-claro: #ffecf4; /* Cor de fundo de containers claros e texto secundário */
+  --rosa-escuro: #a00050; /* Cor para ícones, texto e alguns botões (rosa mais escuro) */
+  --texto-principal: #ffffff; /* Cor principal do texto (branco) */
+  --texto-secundario: #333; /* Cor de texto para elementos em fundo claro (cinza escuro) */
+  --caixa: #ffe2ef; /* Cor da caixa principal (similar ao branco/rosa claro) */
+  --verde-pago: #208080; /* Para a barra de progresso paga */
+  --vermelho-total: #e53935; /* Para a barra de progresso total/faltante */
+  --fundo-lista: #a00050; /* Fundo da seção da lista de membros/atividades */
+  --item-lista-bg: #c91557; /* Fundo dos itens individuais da lista */
+}
+
+/* Reset básico para todos os elementos */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Estilos para o corpo da página */
+body {
+  margin: 0;
+  background: var(--rosa-fundo);
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column; /* Alterado para coluna para posicionar a nav inferior */
+  justify-content: center; /* Centraliza verticalmente o container */
+  align-items: center; /* Centraliza horizontalmente o container */
+  min-height: 100vh;
+  color: var(--texto-secundario);
+  padding-bottom: 20px; /* Espaço para a barra de navegação inferior */
+  padding-top: 20px; /* Padding no topo para melhor visualização */
+}
+
+/* Container principal da página */
+.container {
+  width: 95%;
+  max-width: 720px;
+  background: var(--caixa);
+  border-radius: 24px;
+  padding: 50px 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* --- Cabeçalho (onde está a seta) --- */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--rosa-fundo); /* A cor padrão do cabeçalho */
+  margin-bottom: 0;
+}
+
+/* Estilo padrão para todos os ícones */
+.icon {
+  font-size: 24px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--rosa-fundo); /* Cor padrão dos ícones */
+}
+
+/* Título do cabeçalho */
+.title {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 1.3;
+  user-select: none;
+}
+
+/* --- ESTILOS PARA O LINK DA SETA (ADICIONADO E CORRIGIDO) --- */
+.icon-link-arrow {
+    text-decoration: none; /* REMOVE O SUBLINHADO */
+    color: var(--rosa-escuro); /* Cor do ícone da seta: rosa escuro */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-link-arrow .icon.arrow {
+    pointer-events: none; /* Permite que o clique passe para o link */
+    /* A cor já é definida no .icon-link-arrow */
+}
+
+
+/* --- Cards de Topo (Total Participantes, Valor Pago, Valor Gasto) --- */
+.cards-top {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.card-total-participants {
+  background: var(--rosa-claro);
+  color: var(--rosa-escuro);
+  border-radius: 18px;
+  padding: 20px 25px;
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.card-total-participants .icon-people {
+  font-size: 28px;
+  color: var(--rosa-fundo);
+}
+
+.values-row {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.value-card {
+  background: var(--rosa-claro);
+  color: var(--rosa-escuro);
+  border-radius: 18px;
+  padding: 20px 25px;
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+.value-card .label {
+  font-size: 14px;
+  color: var(--rosa-escuro);
+  margin-bottom: 5px;
+}
+
+.value-card .amount {
+  font-size: 20px;
+  color: var(--rosa-fundo);
+}
+ 
+.value-card.valor-pago .amount {
+    color: var(--verde-pago);
+}
+
+.value-card.valor-gasto .amount {
+    color: var(--vermelho-total);
+}
+
+
+/* --- Seção de Lista de Membros/Atividades --- */
+.lista-secao {
+  background-color: var(--fundo-lista);
+  color: var(--texto-principal);
+  border-radius: 24px;
+  padding: 20px 30px;
+  margin-top: 0;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.lista-secao .mes-header {
+  font-weight: bold;
+  font-size: 18px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--texto-principal);
+}
+
+.lista-secao .icon-calendar {
+  font-size: 20px;
+  color: var(--texto-principal);
+}
+
+.lista-secao ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-secao li {
+  display: flex;
+  align-items: center;
+  background-color: var(--item-lista-bg);
+  padding: 15px 20px;
+  margin: 10px 0;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  color: var(--texto-principal);
+}
+
+.lista-secao .item-icon {
+  font-size: 20px;
+  margin-right: 15px;
+  color: var(--texto-principal);
+}
+
+.lista-secao .item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.lista-secao .item-details h3 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--texto-principal);
+}
+
+.lista-secao .item-details p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--rosa-claro);
+}
+
+.lista-secao .item-details .item-description {
+  font-size: 12px;
+  color: var(--rosa-claro);
+  margin-top: 2px;
+}
+
+.lista-secao .item-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--texto-principal);
+  margin-left: 15px;
+}
+
+/* --- Navegação Inferior --- */
+nav.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--caixa);
+  border-radius: 24px;
+  padding: 15px 0;
+  width: 95%;
+  max-width: 720px;
+  margin-top: 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--rosa-escuro);
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.nav-item .icon {
+  font-size: 28px;
+  margin-bottom: 5px;
+  color: var(--rosa-escuro);
+}
+
+.nav-item.active .icon,
+.nav-item.active {
+  color: var(--rosa-fundo);
+}
+
+/* Esconder os botões de navegação antigos, se existirem */
+.botoes-navegacao {
+    display: none;
+}

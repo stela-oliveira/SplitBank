@@ -1,0 +1,453 @@
+
+    :root {
+      --rosa-fundo: #d1006d;
+      --rosa-claro: #ffecf4;
+      --rosa-escuro: #a00050;
+      --texto-principal: #ffffff;
+      --texto-secundario: #333;
+      --caixa: #ffe2ef; /* Cor da caixa principal (similar ao branco/rosa claro) */
+      --verde-pago: #208080; /* Para a barra de progresso paga */
+      --vermelho-total: #e53935; /* Para a barra de progresso total/faltante */
+      --fundo-lista: #a00050; /* Fundo da seção da lista de membros/atividades */
+      --item-lista-bg: #c91557; /* Fundo dos itens individuais da lista */
+    }
+
+    body {
+      margin: 0;
+      background: var(--rosa-fundo);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column; /* Para posicionar a nav inferior */
+      justify-content: flex-start; /* Alinha o conteúdo ao topo */
+      align-items: center;
+      min-height: 100vh;
+      color: var(--texto-secundario);
+      padding-bottom: 20px; /* Espaço para a barra de navegação inferior */
+      padding-top: 20px; /* Adiciona um padding no topo para melhor visualização */
+      box-sizing: border-box; /* Garante que padding não adicione tamanho total */
+    }
+
+    .container {
+      width: 95%;
+      max-width: 720px; /* Largura máxima para mobile */
+      background: var(--caixa); /* Cor da caixa principal */
+      border-radius: 24px;
+      padding: 40px 30px; /* Ajustado para um padding mais proporcional */
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 30px; /* Espaçamento entre as seções principais */
+    }
+
+    /* --- Cabeçalho de Boas-Vindas --- */
+    .welcome-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px; /* Espaço após o cabeçalho */
+      color: var(--rosa-fundo);
+    }
+
+    .welcome-text {
+      flex-grow: 1;
+      text-align: left; /* Alinhamento do texto de boas-vindas */
+      font-size: 28px;
+      font-weight: bold;
+      line-height: 1.2;
+      color: var(--rosa-fundo);
+    }
+
+    .welcome-text .subtitulo {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--rosa-escuro); /* Cor para o subtítulo */
+      margin-top: 5px;
+    }
+
+    .icon.bell {
+      font-size: 28px;
+      cursor: pointer;
+      user-select: none;
+      color: var(--rosa-fundo); /* Cor do sino */
+    }
+
+    /* --- Seção de Saldo Principal --- */
+    .balance-section {
+      background-color: var(--rosa-fundo); /* Fundo rosa escuro */
+      color: var(--texto-principal);
+      border-radius: 18px; /* Mais arredondado */
+      padding: 25px 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .balance-values {
+      display: flex;
+      justify-content: space-around;
+      gap: 15px;
+      text-align: center;
+    }
+
+    .balance-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-weight: bold;
+      position: relative; /* Para a linha divisória */
+    }
+
+    .balance-item:first-child::after {
+      content: '';
+      position: absolute;
+      right: -7.5px; /* Metade do gap de 15px */
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 80%;
+      background-color: rgba(255, 255, 255, 0.3); /* Linha divisória */
+      border-radius: 1px;
+    }
+
+    .balance-item .label {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 5px;
+    }
+
+    .balance-item .amount {
+      font-size: 22px;
+      color: var(--texto-principal);
+    }
+
+    .balance-item .amount.negative {
+      color: var(--rosa-claro); /* Cor mais clara para negativo na seção rosa */
+    }
+
+    .progress-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: var(--texto-principal); /* Cor da barra de progresso */
+      width: 10%; /* Exemplo: 10% */
+      border-radius: 5px;
+    }
+
+    .progress-text {
+      font-size: 13px;
+      color: var(--texto-principal);
+      opacity: 0.8;
+    }
+
+    /* --- Cards de Informação Adicional --- */
+    .info-cards {
+      display: flex;
+      gap: 15px;
+      width: 100%;
+      flex-wrap: wrap; /* Permite que os cards quebrem a linha */
+      justify-content: center;
+    }
+
+    .info-card {
+      background-color: #31002e; /* Fundo preto/roxo escuro da imagem */
+      color: var(--texto-principal);
+      border-radius: 18px;
+      padding: 20px;
+      flex: 1;
+      min-width: 150px; /* Tamanho mínimo para os cards */
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
+    }
+
+    .info-card .card-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-card .card-icon {
+      font-size: 24px;
+      color: var(--texto-principal);
+    }
+
+    .info-card .card-label {
+      font-size: 14px;
+      font-weight: bold;
+      opacity: 0.9;
+    }
+
+    .info-card .card-value {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--texto-principal);
+      margin-top: 5px;
+    }
+
+    .info-card .card-description {
+      font-size: 13px;
+      color: var(--rosa-claro);
+      opacity: 0.8;
+    }
+
+    .full-card-link {
+    /* ... outras propriedades ... */
+    text-decoration: none; /* <--- ESSA LINHA REMOVE O SUBLINHADO */
+    color: inherit;       /* <--- ESSA LINHA FAZ O LINK HERDAR A COR DO TEXTO DO PAI */
+    /* ... outras propriedades ... */
+}
+
+    /* --- Botões de Período --- */
+    .period-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .period-btn {
+      background-color: var(--rosa-claro);
+      color: var(--rosa-escuro);
+      border: none;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .period-btn.active,
+    .period-btn:hover {
+      background-color: var(--rosa-fundo);
+      color: var(--texto-principal);
+    }
+
+    /* --- Seção de Atividades Recentes --- */
+    .recent-activities {
+      background-color: var(--fundo-lista); /* Fundo escuro */
+      color: var(--texto-principal);
+      border-radius: 24px;
+      padding: 20px 30px;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .recent-activities .section-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: var(--texto-principal);
+    }
+
+    .recent-activities ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .recent-activities li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--item-lista-bg);
+      padding: 15px 20px;
+      margin: 10px 0;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      color: var(--texto-principal);
+    }
+
+    .recent-activities .activity-icon {
+      font-size: 22px;
+      margin-right: 15px;
+      color: var(--texto-principal);
+    }
+
+    .recent-activities .activity-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .recent-activities .activity-details h3 {
+      margin: 0;
+      font-size: 16px;
+      color: var(--texto-principal);
+    }
+
+    .recent-activities .activity-details p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--rosa-claro);
+    }
+
+    .recent-activities .activity-amount {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--texto-principal);
+      margin-left: 15px;
+    }
+
+    .recent-activities .activity-amount.negative {
+        color: var(--vermelho-total); /* Cor vermelha para despesas */
+    }
+    .recent-activities .activity-amount.positive {
+        color: var(--verde-pago); /* Cor verde para receitas */
+    }
+
+
+/* --- INÍCIO: ESTILOS DA BARRA DE NAVEGAÇÃO INFERIOR PADRÃO --- */
+/* Copiado do despesas.css para padronizar */
+nav.footer-nav { /* Mantendo 'footer-nav' para consistência */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--caixa); /* Fundo claro da barra */
+  border-radius: 24px; /* Bordas arredondadas */
+  padding: 15px 0;
+  width: 95%; /* Adapta-se à largura do container */
+  max-width: 720px; /* Mesma largura máxima do container */
+  margin-top: 40px; /* Espaçamento da seção anterior */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para os itens de navegação (sejam div ou dentro de link) */
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--rosa-escuro); /* Cor padrão para itens inativos */
+  font-weight: bold;
+  font-size: 12px;
+  cursor: pointer; /* Cursor de ponteiro para todos */
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+/* Ícone dentro do item de navegação */
+.nav-item i { /* Alterado de .nav-item .icon para .nav-item i para Boxicons */
+  font-size: 28px;
+  margin-bottom: 5px;
+  color: var(--rosa-escuro); /* Cor padrão do ícone inativo */
+}
+
+/* Estilos para o link que envolve o item de navegação */
+.nav-item-link {
+    text-decoration: none; /* Remove o sublinhado */
+    color: inherit; /* Faz o link herdar a cor do texto do .nav-item */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 100%;
+    padding: 0 10px; /* Padding lateral para aumentar a área clicável */
+    transition: color 0.3s ease;
+}
+
+/* Garante que a div interna não capture cliques e herde estilos */
+.nav-item-link .nav-item {
+    pointer-events: none; /* Permite que o clique "passe" pela div para o link pai */
+    padding: 0;
+    margin: 0;
+    color: inherit; /* Garante que a div interna herde a cor do .nav-item-link */
+}
+
+/* Estilos para o hover (passar o mouse) */
+.nav-item-link:hover .nav-item,
+.nav-item-link:hover .nav-item i { /* Alterado para .nav-item i */
+    color: var(--rosa-fundo); /* Cor do hover para o ícone e texto */
+}
+
+/* Estilos para o item ativo (selecionado) */
+.nav-item-link.active .nav-item,
+.nav-item-link.active .nav-item i { /* Alterado para .nav-item i */
+    color: var(--rosa-fundo); /* Cor do item ativo (rosa fundo) */
+}
+/* --- FIM: ESTILOS DA BARRA DE NAVEGAÇÃO INFERIOR PADRÃO --- */
+
+
+/* Regras para esconder elementos antigos (manter, se não estiverem em uso) */
+.card-saldo, .menu-principal, .link, .botoes-navegacao {
+    display: none;
+}
+
+/* --- Media Queries para Responsividade --- */
+@media (max-width: 480px) {
+  body {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .container {
+    width: 100%;
+    border-radius: 0;
+    padding: 20px 15px;
+    box-shadow: none;
+    height: 100vh;
+    min-height: 100vh;
+  }
+  .welcome-text {
+    font-size: 24px;
+  }
+  .welcome-text .subtitulo {
+    font-size: 16px;
+  }
+  .balance-item .amount {
+    font-size: 20px;
+  }
+  .info-cards {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .info-card {
+    min-width: 100%;
+    width: 100%;
+    padding: 15px;
+  }
+  .full-card-link {
+    padding: 15px;
+  }
+  .period-buttons {
+    flex-wrap: wrap;
+  }
+  .period-btn {
+    flex: 1;
+    padding: 8px 15px;
+    font-size: 13px;
+  }
+  .recent-activities {
+    padding: 15px 20px;
+  }
+  .recent-activities li {
+    padding: 12px 15px;
+  }
+  nav.footer-nav { /* Usando footer-nav em vez de bottom-nav */
+    width: 100%;
+    border-radius: 0;
+    margin-top: auto;
+    padding: 0;
+    position: fixed; /* Fixa a nav na parte inferior da tela */
+    bottom: 0;
+    left: 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+  }
+}
