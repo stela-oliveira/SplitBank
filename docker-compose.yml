@@ -1,5 +1,5 @@
 services:
-  # Serviço do Backend do SplitBank (este já está funcionando, sem alterações)
+  # Serviço do Backend do SplitBank
   splitbank-backend:
     build:
       context: ./backend
@@ -13,7 +13,6 @@ services:
     depends_on:
       splitbank-db:
         condition: service_healthy
-        # adiconado
     command: sh -c "npx sequelize-cli db:migrate && npm start"
     environment:
       NODE_ENV: development
@@ -57,7 +56,6 @@ services:
     depends_on:
       mini-banco-central-db:
         condition: service_healthy
-    # ADICIONADO: Força a execução das migrations antes de iniciar
     command: sh -c "npx sequelize-cli db:migrate && npm start"
     environment:
       NODE_ENV: development
@@ -101,7 +99,6 @@ services:
     depends_on:
       api-banco-central-db:
         condition: service_healthy
-    # ADICIONADO: Força a execução das migrations antes de iniciar
     command: sh -c "npx sequelize-cli db:migrate && npm start"
     environment:
       NODE_ENV: development
