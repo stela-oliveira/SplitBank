@@ -1,10 +1,26 @@
 const WalletService = require('../services/WalletService');
-const { Wallet, Participant } = require('../models'); // Importar Participant para validação
+const { Wallet, Participant } = require('../models');
 
 class WalletController {
+  async createWallet(req, res, next) {
+    try {
+      const { name, description } = req.body;
+      const ownerId = req.userId; // ID do usuário logado (do token)
+
+      if (!name) {
+        return res.status(400).json({ message: 'Wallet name is required.' });
+      }
+
+      const newWallet = await WalletService.createWallet(name, description, ownerId);
+
+      return res.status(201).json(newWallet);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getSummary(req, res, next) {
     try {
-      // req.userId é definido pelo middleware de autenticação
       const summary = await WalletService.getUserWalletsSummary(req.userId);
       return res.status(200).json(summary);
     } catch (error) {
@@ -17,7 +33,6 @@ class WalletController {
       const { walletId } = req.params;
       const userId = req.userId;
 
-      // Verifique se o usuário é participante da carteira
       const isParticipant = await Participant.findOne({
         where: { walletId: walletId, userId: userId }
       });

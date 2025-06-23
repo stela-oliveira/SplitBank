@@ -4,10 +4,10 @@ const authMiddleware = require('../middlewares/auth');
 
 const router = express.Router();
 
-// Rota para obter despesas por categoria (tela 'Comida')
+// Rota para obter despesas por categoria
 router.get('/:walletId/category/:categoryName', authMiddleware, ExpenseController.getExpensesByCategory);
 
-// Rota para adicionar uma nova despesa (tela 'Novo')
+// Rota para adicionar uma nova despesa
 router.post('/:walletId', authMiddleware, ExpenseController.addExpense);
 
 module.exports = router;

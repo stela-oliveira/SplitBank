@@ -4,6 +4,8 @@ const authMiddleware = require('../middlewares/auth');
 
 const router = express.Router();
 
+router.post('/', authMiddleware, WalletController.createWallet);
+
 // Rota para o resumo da Home (saldo, despesas totais)
 router.get('/summary', authMiddleware, WalletController.getSummary);
 

@@ -1,5 +1,5 @@
 const WalletService = require('../services/WalletService');
-const { Wallet, Participant } = require('../models'); // Importar Wallet e Participant para validação
+const { Wallet, Participant } = require('../models');
 
 class ExpenseController {
   async getExpensesByCategory(req, res, next) {
@@ -33,7 +33,6 @@ class ExpenseController {
       const { description, value, category } = req.body;
       const paidById = req.userId;
 
-      // Validações
       if (!description || !value || !category) {
         return res.status(400).json({ message: 'Description, value, and category are required.' });
       }
@@ -41,7 +40,6 @@ class ExpenseController {
         return res.status(400).json({ message: 'Value must be a positive number.' });
       }
 
-      // Verifique se o usuário é participante da carteira antes de adicionar despesa
       const isParticipant = await Participant.findOne({
         where: { walletId: walletId, userId: paidById }
       });
@@ -50,11 +48,12 @@ class ExpenseController {
         return res.status(403).json({ message: 'User is not a participant of this wallet and cannot add expenses.' });
       }
 
+      // Esta chamada agora funcionará porque o método existe no serviço
       const newExpense = await WalletService.addExpense(walletId, paidById, description, value, category);
+      
       return res.status(201).json({
         message: 'Expense added successfully',
-        expenseId: newExpense.id,
-        expenseDetails: newExpense
+        expense: newExpense
       });
     } catch (error) {
       next(error);

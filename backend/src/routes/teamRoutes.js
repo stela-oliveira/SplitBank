@@ -4,7 +4,8 @@ const authMiddleware = require('../middlewares/auth');
 
 const router = express.Router();
 
-// Rota para obter o resumo da equipe (tela 'Equipe')
 router.get('/:walletId/summary', authMiddleware, TeamController.getTeamSummary);
+
+router.post('/:walletId/participants', authMiddleware, TeamController.addParticipant);
 
 module.exports = router;

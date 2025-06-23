@@ -74,6 +74,43 @@ class BankIntegrationController {
     }
   }
 
+  // Método para buscar contas bancárias na API bancária externa (CORRIGIDO)
+  async getExternalBankAccounts(req, res, next) {
+    try {
+      const userId = req.userId; // ID do usuário do SplitBank
+      const externalBankToken = req.externalBankToken;
+      const externalBankApiUrl = req.externalBankApiUrl;
+
+      const splitbankUser = await User.findByPk(userId, { attributes: ['cpf'] });
+      if (!splitbankUser) {
+        return res.status(404).json({ message: 'SplitBank user not found.' });
+      }
+      
+      const userCpf = splitbankUser.cpf;
+
+      // ---- NOVA LÓGICA ----
+      // Passo 1: Buscar o usuário na API externa usando o CPF para obter o UUID.
+      const externalUser = await ExternalBankApiService.getBankUserByDocument(externalBankApiUrl, externalBankToken, userCpf);
+      
+      if (!externalUser || !externalUser.id) {
+          return res.status(404).json({ message: 'User not found in the external bank with the provided CPF.'});
+      }
+
+      const externalUserId = externalUser.id; // Este é o UUID do usuário no banco externo
+
+      // Passo 2: Usar o UUID correto para buscar as contas.
+      const bankAccounts = await ExternalBankApiService.getBankAccounts(externalBankApiUrl, externalBankToken, externalUserId);
+      return res.status(200).json(bankAccounts);
+
+    } catch (error) {
+      // Adiciona um log mais detalhado do erro da API externa
+      if (error.response) {
+        console.error('External API Error:', error.response.data);
+      }
+      next(error);
+    }
+  }
+
   // Método para buscar transações de uma conta bancária externa
   async getExternalBankTransactions(req, res, next) {
     try {

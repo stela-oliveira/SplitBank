@@ -1,28 +1,29 @@
 services:
-  # Serviço do Backend do SplitBank
+  # Serviço do Backend do SplitBank (este já está funcionando, sem alterações)
   splitbank-backend:
     build:
-      context: ./backend # Aponta para a pasta onde está o Dockerfile do SplitBank backend
+      context: ./backend
       dockerfile: Dockerfile
-    # Mapeia a porta 3000 do host para a porta 3000 do container
     ports:
       - "3000:3000"
-    # Monta o volume para hot-reloading em desenvolvimento
     volumes:
       - ./backend:/usr/src/app/backend
-      - /usr/src/app/backend/node_modules # Impede que node_modules do host sobrescreva o do container
+      - /usr/src/app/backend/node_modules
+    restart: always
     depends_on:
-      - splitbank-db
+      splitbank-db:
+        condition: service_healthy
+        # adiconado
+    command: sh -c "npx sequelize-cli db:migrate && npm start"
     environment:
       NODE_ENV: development
       PORT: 3000
-      # Variáveis de ambiente para conexão com o DB do SplitBank
-      DB_HOST: splitbank-db # Nome do serviço do banco de dados do SplitBank
+      DB_HOST: splitbank-db
       DB_PORT: 5432
       DB_USER: splitbankuser
       DB_PASSWORD: splitbankpassword
       DB_NAME: splitbankdb
-      JWT_SECRET: sua_chave_secreta_jwt_para_splitbank
+      JWT_SECRET: jwt_para_splitbank_backend
 
   # Banco de Dados do SplitBank
   splitbank-db:
@@ -34,30 +35,39 @@ services:
     volumes:
       - splitbank_db_data:/var/lib/postgresql/data
     ports:
-      - "54320:5432" # Porta do host para acessar o DB do SplitBank diretamente (opcional)
+      - "54320:5432"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U splitbankuser -d splitbankdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Serviço da API Mini Banco Central
   mini-banco-central:
     build:
-      context: ./backend/apis/mini-banco-central # Aponta para a pasta onde está o Dockerfile
+      context: ./backend/apis/mini-banco-central
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
     volumes:
       - ./backend/apis/mini-banco-central:/usr/src/app
       - /usr/src/app/node_modules
+    restart: always
     depends_on:
-      - mini-banco-central-db
+      mini-banco-central-db:
+        condition: service_healthy
+    # ADICIONADO: Força a execução das migrations antes de iniciar
+    command: sh -c "npx sequelize-cli db:migrate && npm start"
     environment:
       NODE_ENV: development
       PORT: 3001
-      # Variáveis de ambiente para conexão com o DB da Mini Banco Central
       DB_HOST: mini-banco-central-db
       DB_PORT: 5432
       DB_USER: minibancouser
       DB_PASSWORD: minibancopassword
       DB_NAME: minibancodb
-      JWT_SECRET: sua_chave_secreta_jwt_para_minibanco
+      JWT_SECRET: jwt_para_minibanco
 
   # Banco de Dados da Mini Banco Central
   mini-banco-central-db:
@@ -69,30 +79,39 @@ services:
     volumes:
       - mini_banco_central_db_data:/var/lib/postgresql/data
     ports:
-      - "54321:5432" # Porta do host para acessar o DB do Mini Banco Central diretamente (opcional)
+      - "54321:5432"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U minibancouser -d minibancodb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # Serviço da API Banco Central (assumindo estrutura similar à Mini Banco Central)
+  # Serviço da API Banco Central
   api-banco-central:
     build:
-      context: ./backend/apis/ApiBancoCentral # Aponta para a pasta onde está o Dockerfile
+      context: ./backend/apis/ApiBancoCentral
       dockerfile: Dockerfile
     ports:
       - "3002:3002"
     volumes:
       - ./backend/apis/ApiBancoCentral:/usr/src/app
       - /usr/src/app/node_modules
+    restart: always
     depends_on:
-      - api-banco-central-db
+      api-banco-central-db:
+        condition: service_healthy
+    # ADICIONADO: Força a execução das migrations antes de iniciar
+    command: sh -c "npx sequelize-cli db:migrate && npm start"
     environment:
       NODE_ENV: development
       PORT: 3002
-      # Variáveis de ambiente para conexão com o DB da Api Banco Central
       DB_HOST: api-banco-central-db
       DB_PORT: 5432
       DB_USER: apibancouser
       DB_PASSWORD: apibancopassword
       DB_NAME: apibancodb
-      JWT_SECRET: sua_chave_secreta_jwt_para_apibanco
+      JWT_SECRET: jwt_para_apibanco
 
   # Banco de Dados da Api Banco Central
   api-banco-central-db:
@@ -104,7 +123,13 @@ services:
     volumes:
       - api_banco_central_db_data:/var/lib/postgresql/data
     ports:
-      - "54322:5432" # Porta do host para acessar o DB da Api Banco Central diretamente (opcional)
+      - "54322:5432"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U apibancouser -d apibancodb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   splitbank_db_data:
