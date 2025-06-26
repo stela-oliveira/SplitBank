@@ -1,4 +1,6 @@
 # SplitBank - API Carteira Compartilhada
+![image](https://github.com/user-attachments/assets/c6bf4a4c-b7de-4e7b-83cf-1e2b7d6cee5a)
+
 
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-green.svg)
 ![Express.js](https://img.shields.io/badge/Express.js-4.x-orange.svg)
